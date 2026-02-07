@@ -13,14 +13,14 @@
         </Grid.ColumnDefinitions>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte" Margin="7" BorderBrush="Black" BorderThickness="2">
+                <Button Tag="imgKarta1" MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte" Margin="7" BorderBrush="Black" BorderThickness="2">
                     <StackPanel>
                         <Image x:Name="imgKarta1" Source="/img/card_0.png" />
                     </StackPanel>
                 </Button>
-                <Button Margin="7" BorderBrush="Black" BorderThickness="2">
+                <Button Tag="imgKarta2"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte" Margin="7" BorderBrush="Black" BorderThickness="2">
                     <StackPanel>
-                        <Image Source="/img/card_0.png" />
+                        <Image x:Name="imgKarta2" Source="/img/card_0.png" />
                     </StackPanel>
                 </Button>
                 <Button Margin="7" BorderBrush="Black" BorderThickness="2">

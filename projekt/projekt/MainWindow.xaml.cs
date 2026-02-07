@@ -30,27 +30,39 @@ namespace projekt
         private void PrzypisanieUidImgKarty()
         {
             //lista zawierająca po dwie takie same wartości dla kart, po wybraniu usuwa jeden element
-            //z tej tablicy
+            //z tej listy
             List<int> list = new List<int>{ 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6 };
 
             int r = rand.Next(0, list.Count+1);
 
-            imgKarta1.Uid = list[r].ToString();
-            list.Remove(r);
-            //for (int i = 0; i <= tab.Length; i++) rozwazyć zrobienie tego pętlą
-            //{
-            //}
+            for (int i = 1; i <= list.Count; i++)
+            {
+                Image img = (Image)this.FindName("imgKarta" + i);
+
+                if (img != null)
+                {
+                    img.Uid = list[r].ToString();
+                    list.Remove(r);
+                }
+            }
         }
 
         private void ClickOdkryjKarte(object sender, RoutedEventArgs e)
         {
             Button btn = (Button)sender;
-            
 
-            imgKarta1.Source = new BitmapImage(new Uri(@$"img/card_{imgKarta1.Uid}.png", UriKind.Relative));
-            
+            string targetImageName = btn.Tag.ToString(); //szukamy odpowiedniego img związanego z buttonem
 
+            // Szukamy kontrolki po nazwie zapisanej w Tagu
+            Image img = (Image)this.FindName(targetImageName);
 
+            if (img != null)
+            {
+                img.Source = new BitmapImage(new Uri(@$"img/card_{img.Uid}.png", UriKind.Relative));
+            }
+
+            //przemyśleć, gdzie powinno znaleźć się sprawdzanie czy poprzednio odkryta karta
+            //jest taka sama jak aktualnie odkryta
 
             btn.IsEnabled = false;
         }
