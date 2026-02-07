@@ -8,4 +8,37 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="card_1.png" />
+    <None Remove="card_2.png" />
+    <None Remove="card_3.png" />
+    <None Remove="card_4.png" />
+    <None Remove="card_5.png" />
+    <None Remove="card_6.png" />
+    <None Remove="img\card_0.png" />
+    <None Remove="img\card_4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\card_0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\card_1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\card_2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\card_3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\card_4.png" />
+    <Resource Include="img\card_5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\card_6.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
 </Project>
