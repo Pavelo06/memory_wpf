@@ -18,11 +18,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Emilia\\Desktop\\projekty\\wpf\\projekt_wpf\\projekt\\projekt\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "projekt\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Emilia\\Desktop\\projekty\\wpf\\projekt_wpf\\projekt\\projekt\\MainWindow.xaml.cs",
+              "RelativeToolTip": "projekt\\MainWindow.xaml.cs",
+              "ViewState": "AgIAACYAAAAAAAAAAAA0wDsAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-07T17:45:54.69Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -34,19 +43,6 @@
               "RelativeToolTip": "projekt\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-02-07T17:45:57.452Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Emilia\\Desktop\\projekty\\wpf\\projekt_wpf\\projekt\\projekt\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "projekt\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\Emilia\\Desktop\\projekty\\wpf\\projekt_wpf\\projekt\\projekt\\MainWindow.xaml.cs",
-              "RelativeToolTip": "projekt\\MainWindow.xaml.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAUwEAAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-07T17:45:54.69Z",
               "EditorCaption": ""
             }
           ]
