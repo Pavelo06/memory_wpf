@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +24,7 @@ namespace projekt
             InitializeComponent();
 
             PrzypisanieUidImgKarty();
-
+            //zrobić, by wszystkie karty na początku gry odsłoniły się na ułamek sekundy!!!
         }
 
         int liczbaKart = 12; //zmienić, by jakoś automatycznie zliczyło ile jest kart, na wypadek gdydy w xaml'u się zmieniła liczba kart
@@ -39,14 +40,12 @@ namespace projekt
 
         Random rand = new Random();
 
-        //zrobić całą logikę odkrywania kart i zakrywania z powrotem przy nieodgadnięciu,
-        //naliczanie puntków itd.
 
         private void PrzypisanieUidImgKarty()
         {
             //lista zawierająca po dwie takie same wartości dla kart, po wybraniu usuwa jeden element
             //z tej listy
-            List<int> list = new List<int>{ 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6 };
+            List<int> list = new List<int> { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6 };
 
 
             for (int i = 1; i <= liczbaKart; i++)
@@ -79,7 +78,7 @@ namespace projekt
             }
         }
 
-        private void LiczeniePunktow(Image img, Button btn)
+        private async Task LiczeniePunktow(Image img, Button btn, ScaleTransform scale)
         {
             btn.IsEnabled = false;
 
@@ -92,9 +91,7 @@ namespace projekt
                 pierwszyImg = img;
                 pierwszyButton = btn;
             }
-
-            
-            if (licznikOdkrytychKart == 2)
+            else if (licznikOdkrytychKart == 2)
             {
 
                 //sprawdzenie czy karty są takie same
@@ -114,39 +111,40 @@ namespace projekt
                 }
                 else
                 {
-                    //na pewno coś ze spowolnieniem czasu jak się karty zakrywają (przy odkrywaniu w sumie też)
-                    pierwszyImg.Source = new BitmapImage(new Uri(@"img/card_0.png", UriKind.Relative));
-                    pierwszyButton.IsEnabled = true;
+                    await Task.Delay(1000);
 
-                    img.Source = new BitmapImage(new Uri(@"img/card_0.png", UriKind.Relative));
+                    // Odwracamy obie karty z powrotem (równolegle)
+                    var task1 = SimpleFlip(pierwszyImg, "0", (ScaleTransform)this.FindName("FlipTransform" + pierwszyButton.Uid));
+                    var task2 = SimpleFlip(img, "0", scale);
+
+                    await Task.WhenAll(task1, task2);
+
+                    // Przywracamy przyciski
+                    pierwszyButton.IsEnabled = true;
                     btn.IsEnabled = true;
+
                 }
 
                 licznikOdkrytychKart = 0;
             }
-
         }
 
-        private void ClickOdkryjKarte(object sender, RoutedEventArgs e)
+        private async void ClickOdkryjKarte(object sender, RoutedEventArgs e)
         {
             Button btn = (Button)sender;
-
-            SimpleFlip();
 
             string targetImageName = btn.Tag.ToString(); //szukamy odpowiedniego img związanego z buttonem
 
             // Szukamy kontrolki po nazwie zapisanej w Tagu
             Image img = (Image)this.FindName(targetImageName);
 
-            if (img != null)
-            {
-                img.Source = new BitmapImage(new Uri(@$"img/card_{img.Uid}.png", UriKind.Relative));
-                //Console.WriteLine(img.Uid);
-            }
+            ScaleTransform scaleTransform = (ScaleTransform)this.FindName("FlipTransform" + btn.Uid);
 
-            
+            // Czekamy aż karta się obróci
+            await SimpleFlip(img, img.Uid, scaleTransform);
 
-            LiczeniePunktow(img, btn);
+            // Dopiero po obróceniu liczymy punkty i ewentualnie zakrywamy
+            await LiczeniePunktow(img, btn, scaleTransform);
 
         }
 
@@ -161,8 +159,9 @@ namespace projekt
         }
 
 
-        public void SimpleFlip() //naprawić!!!
+        public async Task SimpleFlip(Image img, string imageUid, ScaleTransform scale)
         {
+            var tcs = new TaskCompletionSource<bool>();
             // 1. The Shrink and Grow Animation (ScaleX from 1 to -1)
             DoubleAnimation flipAnim = new DoubleAnimation
             {
@@ -177,14 +176,19 @@ namespace projekt
             ObjectAnimationUsingKeyFrames imageSwapAnim = new ObjectAnimationUsingKeyFrames();
             imageSwapAnim.Duration = TimeSpan.FromSeconds(1);
 
-            var newImage = new BitmapImage(new Uri("pack://application:,,,/img/card_1.png"));
-                var keyFrame = new DiscreteObjectKeyFrame(newImage, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.5)));
+            var newImage = new BitmapImage(new Uri($"pack://application:,,,/img/card_{imageUid}.png"));
+            var keyFrame = new DiscreteObjectKeyFrame(newImage, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.5)));
 
             imageSwapAnim.KeyFrames.Add(keyFrame);
 
+            flipAnim.Completed += (s, e) => tcs.SetResult(true);
+
             // 3. Run them together
-            FlipTransform.BeginAnimation(ScaleTransform.ScaleXProperty, flipAnim);
-            imgKarta1.BeginAnimation(Image.SourceProperty, imageSwapAnim);
+            Console.WriteLine(scale);
+            scale.BeginAnimation(ScaleTransform.ScaleXProperty, flipAnim);
+            img.BeginAnimation(Image.SourceProperty, imageSwapAnim);
+
+            await tcs.Task;
         }
     }
 }

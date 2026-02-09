@@ -18,3 +18,4 @@ C:\Users\Emilia\Desktop\projekty\wpf\projekt_wpf\projekt\projekt\obj\Debug\net10
 C:\Users\Emilia\Desktop\projekty\wpf\projekt_wpf\projekt\projekt\obj\Debug\net10.0-windows\projekt.pdb
 C:\Users\Emilia\Desktop\projekty\wpf\projekt_wpf\projekt\projekt\obj\Debug\net10.0-windows\projekt.genruntimeconfig.cache
 C:\Users\Emilia\Desktop\projekty\wpf\projekt_wpf\projekt\projekt\obj\Debug\net10.0-windows\ref\projekt.dll
+C:\Users\Emilia\Desktop\projekty\wpf\projekt_wpf\projekt\projekt\obj\Debug\net10.0-windows\projekt.sourcelink.json
