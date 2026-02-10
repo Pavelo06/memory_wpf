@@ -38,6 +38,8 @@ namespace projekt
         Image pierwszyImg;
         Button pierwszyButton;
 
+        bool czyAnimacjaTrwa = false;
+
         Random rand = new Random();
 
 
@@ -62,25 +64,22 @@ namespace projekt
             }
         }
 
-        private void ZakryjWszystkieKarty()
+        private void ZakryjWszystkieKarty() //bez async, żeby wszystkie na raz zakryło
         {
             for (int i = 1; i <= liczbaKart; i++)
             {
 
                 Image img = (Image)this.FindName("imgKarta" + i);
                 Button btn = (Button)this.FindName("btnKarta" + i);
+                ScaleTransform scaleTransform = (ScaleTransform)this.FindName("FlipTransform" + i);
 
-                if (img != null)
-                {
-                    img.Source = new BitmapImage(new Uri(@"img/card_0.png", UriKind.Relative));
-                    btn.IsEnabled = true;
-                }
+                SimpleFlip(img, "0", scaleTransform);
+                btn.IsEnabled = true;
             }
         }
 
         private async Task LiczeniePunktow(Image img, Button btn, ScaleTransform scale)
         {
-            btn.IsEnabled = false;
 
             licznikOdkrytychKart++;
 
@@ -93,12 +92,17 @@ namespace projekt
             }
             else if (licznikOdkrytychKart == 2)
             {
-
+                czyAnimacjaTrwa = true;
                 //sprawdzenie czy karty są takie same
                 if (idPierwszejKarty == img.Uid)
                 {
                     punkty++;
                     textBlockPunkty.Text = $"Punkty: {punkty}";
+
+                    //zniknięcie pary kart po odgadnięciu
+                    await Task.Delay(300);
+                    pierwszyButton.Visibility = Visibility.Hidden;
+                    btn.Visibility = Visibility.Hidden;
 
                     //wygrana opiera się na odkryciu wszystkich kart, czyli zdobycie 6 punktów
                     if (punkty == 6)
@@ -106,12 +110,13 @@ namespace projekt
                         wygrane++;
                         textBlockIloscWygranych.Text = $"Ilość wygranych: {wygrane}";
                         buttonNowaGra.Visibility = Visibility.Visible;
-
+                        punkty = 0;
                     }
                 }
                 else
                 {
-                    await Task.Delay(1000);
+                    czyAnimacjaTrwa = true;
+                    await Task.Delay(500);
 
                     // Odwracamy obie karty z powrotem (równolegle)
                     var task1 = SimpleFlip(pierwszyImg, "0", (ScaleTransform)this.FindName("FlipTransform" + pierwszyButton.Uid));
@@ -124,6 +129,8 @@ namespace projekt
                     btn.IsEnabled = true;
 
                 }
+                await Task.Delay(500);
+                czyAnimacjaTrwa = false;
 
                 licznikOdkrytychKart = 0;
             }
@@ -131,7 +138,12 @@ namespace projekt
 
         private async void ClickOdkryjKarte(object sender, RoutedEventArgs e)
         {
+            if (czyAnimacjaTrwa) return;
+
             Button btn = (Button)sender;
+
+            btn.IsEnabled = false;
+
 
             string targetImageName = btn.Tag.ToString(); //szukamy odpowiedniego img związanego z buttonem
 
@@ -152,32 +164,41 @@ namespace projekt
         {
             buttonNowaGra.Visibility = Visibility.Collapsed;
 
-            //resetuje gre zostawiając liczbę punktów i wygranych
+            //resetuje gre zostawiając liczbę wygranych
             ZakryjWszystkieKarty();
 
             PrzypisanieUidImgKarty();
+
+            for (int i = 1; i <= liczbaKart; i++)
+            {
+                Button btn = (Button)this.FindName("btnKarta" + i);
+                btn.Visibility = Visibility.Visible;
+            }
         }
 
 
         public async Task SimpleFlip(Image img, string imageUid, ScaleTransform scale)
         {
+            czyAnimacjaTrwa = true;
+
             var tcs = new TaskCompletionSource<bool>();
             // 1. The Shrink and Grow Animation (ScaleX from 1 to -1)
             DoubleAnimation flipAnim = new DoubleAnimation
             {
                 From = 1,
                 To = -1,
-                Duration = TimeSpan.FromSeconds(1),
+                Duration = TimeSpan.FromSeconds(0.5),
                 // Adding an Ease makes it look more natural/fluid
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
             };
 
-            // 2. The Image Swap (Exactly at 0.5 seconds)
+
+            // 2. The Image Swap (Exactly at 0.25 seconds)
             ObjectAnimationUsingKeyFrames imageSwapAnim = new ObjectAnimationUsingKeyFrames();
-            imageSwapAnim.Duration = TimeSpan.FromSeconds(1);
+            imageSwapAnim.Duration = TimeSpan.FromSeconds(0.5);
 
             var newImage = new BitmapImage(new Uri($"pack://application:,,,/img/card_{imageUid}.png"));
-            var keyFrame = new DiscreteObjectKeyFrame(newImage, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.5)));
+            var keyFrame = new DiscreteObjectKeyFrame(newImage, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.25)));
 
             imageSwapAnim.KeyFrames.Add(keyFrame);
 
@@ -189,6 +210,7 @@ namespace projekt
             img.BeginAnimation(Image.SourceProperty, imageSwapAnim);
 
             await tcs.Task;
+            czyAnimacjaTrwa = false;
         }
     }
 }

@@ -51,46 +51,78 @@
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="btnKarta5" Tag="imgKarta5"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
+                <Button Uid="5" x:Name="btnKarta5" Tag="imgKarta5"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
                     <StackPanel>
-                        <Image  x:Name="imgKarta5"  Source="/img/card_0.png" />
+                        <Image x:Name="imgKarta5" Source="/img/card_0.png" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <ScaleTransform x:Name="FlipTransform5" ScaleX="1" />
+                            </Image.RenderTransform>
+                        </Image>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnKarta6" Tag="imgKarta6"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
+                <Button Uid="6" x:Name="btnKarta6" Tag="imgKarta6"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
                     <StackPanel>
-                        <Image x:Name="imgKarta6"  Source="/img/card_0.png" />
+                        <Image x:Name="imgKarta6" Source="/img/card_0.png" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <ScaleTransform x:Name="FlipTransform6" ScaleX="1" />
+                            </Image.RenderTransform>
+                        </Image>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnKarta7" Tag="imgKarta7"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
+                <Button Uid="7" x:Name="btnKarta7" Tag="imgKarta7"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
                     <StackPanel>
-                        <Image x:Name="imgKarta7"  Source="/img/card_0.png" />
+                        <Image x:Name="imgKarta7" Source="/img/card_0.png" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <ScaleTransform x:Name="FlipTransform7" ScaleX="1" />
+                            </Image.RenderTransform>
+                        </Image>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnKarta8" Tag="imgKarta8"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
+                <Button Uid="8" x:Name="btnKarta8" Tag="imgKarta8"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
                     <StackPanel>
-                        <Image x:Name="imgKarta8"  Source="/img/card_0.png" />
+                        <Image x:Name="imgKarta8" Source="/img/card_0.png" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <ScaleTransform x:Name="FlipTransform8" ScaleX="1" />
+                            </Image.RenderTransform>
+                        </Image>
                     </StackPanel>
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="btnKarta9" Tag="imgKarta9"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
+                <Button Uid="9" x:Name="btnKarta9" Tag="imgKarta9"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
                     <StackPanel>
-                        <Image x:Name="imgKarta9"  Source="/img/card_0.png" />
+                        <Image x:Name="imgKarta9" Source="/img/card_0.png" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <ScaleTransform x:Name="FlipTransform9" ScaleX="1" />
+                            </Image.RenderTransform>
+                        </Image>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnKarta10" Tag="imgKarta10"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
+                <Button Uid="10" x:Name="btnKarta10" Tag="imgKarta10"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
                     <StackPanel>
-                        <Image x:Name="imgKarta10"  Source="/img/card_0.png" />
+                        <Image x:Name="imgKarta10" Source="/img/card_0.png" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <ScaleTransform x:Name="FlipTransform10" ScaleX="1" />
+                            </Image.RenderTransform>
+                        </Image>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnKarta11" Tag="imgKarta11"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
+                <Button Uid="11" x:Name="btnKarta11" Tag="imgKarta11"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
                     <StackPanel>
-                        <Image x:Name="imgKarta11"  Source="/img/card_0.png" />
+                        <Image x:Name="imgKarta11" Source="/img/card_0.png" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <ScaleTransform x:Name="FlipTransform11" ScaleX="1" />
+                            </Image.RenderTransform>
+                        </Image>
                     </StackPanel>
                 </Button>
-                <Button x:Name="btnKarta12" Tag="imgKarta12"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
+                <Button Uid="12" x:Name="btnKarta12" Tag="imgKarta12"  MaxHeight="120" MaxWidth="120" Click="ClickOdkryjKarte"  Margin="7" BorderBrush="Black" BorderThickness="2">
                     <StackPanel>
-                        <Image x:Name="imgKarta12"  Source="/img/card_0.png" />
+                        <Image x:Name="imgKarta12" Source="/img/card_0.png" RenderTransformOrigin="0.5,0.5">
+                            <Image.RenderTransform>
+                                <ScaleTransform x:Name="FlipTransform12" ScaleX="1" />
+                            </Image.RenderTransform>
+                        </Image>
                     </StackPanel>
                 </Button>
             </StackPanel>
