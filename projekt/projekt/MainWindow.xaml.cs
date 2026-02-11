@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace projekt
 {
@@ -24,7 +25,8 @@ namespace projekt
             InitializeComponent();
 
             PrzypisanieUidImgKarty();
-            //zrobić, by wszystkie karty na początku gry odsłoniły się na ułamek sekundy!!!
+
+            StartTimer();
         }
 
         int liczbaKart = 12; //zmienić, by jakoś automatycznie zliczyło ile jest kart, na wypadek gdydy w xaml'u się zmieniła liczba kart
@@ -39,6 +41,8 @@ namespace projekt
         Button pierwszyButton;
 
         bool czyAnimacjaTrwa = false;
+
+        private CancellationTokenSource _timerCts;
 
         Random rand = new Random();
 
@@ -107,10 +111,11 @@ namespace projekt
                     //wygrana opiera się na odkryciu wszystkich kart, czyli zdobycie 6 punktów
                     if (punkty == 6)
                     {
+                        MessageBox.Show("Poziom ukończony");
                         wygrane++;
                         textBlockIloscWygranych.Text = $"Ilość wygranych: {wygrane}";
                         buttonNowaGra.Visibility = Visibility.Visible;
-                        punkty = 0;
+                        
                     }
                 }
                 else
@@ -164,6 +169,11 @@ namespace projekt
         {
             buttonNowaGra.Visibility = Visibility.Collapsed;
 
+            licznikOdkrytychKart = 0;
+
+            punkty = 0;
+            textBlockPunkty.Text = $"Punkty: {punkty}";
+
             //resetuje gre zostawiając liczbę wygranych
             ZakryjWszystkieKarty();
 
@@ -174,6 +184,8 @@ namespace projekt
                 Button btn = (Button)this.FindName("btnKarta" + i);
                 btn.Visibility = Visibility.Visible;
             }
+
+            StartTimer();
         }
 
 
@@ -211,6 +223,63 @@ namespace projekt
 
             await tcs.Task;
             czyAnimacjaTrwa = false;
+        }
+
+        public async void StartTimer(int seconds = 45)
+        {
+            textBlockTimer.Foreground = Brushes.Black;
+
+            // 1. Cancel any existing timer before starting a new one
+            _timerCts?.Cancel();
+            _timerCts = new CancellationTokenSource();
+            var token = _timerCts.Token;
+
+            var endTime = DateTime.Now + TimeSpan.FromSeconds(seconds);
+
+            try
+            {
+                while (DateTime.Now < endTime)
+                {
+                    // 2. Check if we should stop (points reached or cancellation requested)
+                    if (token.IsCancellationRequested || punkty >= 6)
+                    {
+                        break;
+                    }
+
+                    var remaining = endTime - DateTime.Now;
+
+                    // 3. Update UI safely
+                    textBlockTimer.Text = remaining.ToString(@"mm\:ss");
+
+                    // 4. Wait 1 second without blocking the UI thread
+                    await Task.Delay(1000, token);
+                }
+
+                if (!token.IsCancellationRequested)
+                {
+                    textBlockTimer.Text = "00:00";
+                    textBlockTimer.Foreground = Brushes.Red;
+
+                    buttonNowaGra.Visibility = Visibility.Visible;
+
+                    for (int i = 1; i <= liczbaKart; i++)
+                    {
+                        Button btn = (Button)this.FindName("btnKarta" + i);
+
+                        btn.IsEnabled = false;
+                    }
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                // This is expected when we stop the timer manually
+            }
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            _timerCts?.Cancel(); // Stops the timer background task immediately
+            base.OnClosing(e);
         }
     }
 }
